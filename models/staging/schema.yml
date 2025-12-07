@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: Cleaned and standardized customer data from raw source
+    columns:
+      - name: customer_id
+        description: Primary key - unique identifier for each customer
+        tests:
+          - unique
+          - not_null
+      
+      - name: email
+        description: Customer email address
+        tests:
+          - not_null
+          - unique
+      
+      - name: first_name
+        description: Customer first name (lowercase)
+        tests:
+          - not_null
+      
+      - name: signup_date
+        description: Date when customer signed up
+        tests:
+          - not_null
+
+  - name: stg_orders
+    description: Cleaned order data - excludes cancelled orders
+    columns:
+      - name: order_id
+        description: Primary key - unique identifier for each order
+        tests:
+          - unique
+          - not_null
+      
+      - name: customer_id
+        description: Foreign key to customers table
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      
+      - name: amount
+        description: Order amount in dollars
+        tests:
+          - not_null
+      
+      - name: order_date
+        description: Date when order was placed
+        tests:
+          - not_null

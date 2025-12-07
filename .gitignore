@@ -1,0 +1,38 @@
+# DBT specific
+target/
+dbt_packages/
+logs/
+dbt_modules/
+
+# Credentials - NEVER commit these!
+profiles.yml
+.user.yml
+**/credentials/
+**/*credentials*.json
+**/*keyfile*.json
+**/*key*.json
+**/bigquery-key.json
+
+# Python
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+*.egg-info/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log

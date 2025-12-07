@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: |
+      Customer dimension table with lifetime metrics and segmentation.
+      One row per customer with complete order history summary.
+    columns:
+      - name: customer_id
+        description: Primary key - unique customer identifier
+        tests:
+          - unique
+          - not_null
+      
+      - name: customer_segment
+        description: |
+          Customer classification based on purchase behavior:
+          - VIP: 3+ orders
+          - Repeat: 2 orders
+          - One-time: 1 order
+          - Never Purchased: 0 orders
+        tests:
+          - accepted_values:
+              values: ['VIP', 'Repeat', 'One-time', 'Never Purchased']
+      
+      - name: lifetime_value
+        description: Total amount spent by customer
+        tests:
+          - not_null
+
+  - name: fct_orders
+    description: |
+      Order fact table with customer denormalization.
+      One row per completed order (cancelled orders excluded).
+    columns:
+      - name: order_id
+        description: Primary key - unique order identifier
+        tests:
+          - unique
+          - not_null
+      
+      - name: customer_id
+        description: Foreign key to dim_customers
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+
+  - name: monthly_revenue
+    description: Monthly revenue aggregation for executive reporting
+    columns:
+      - name: order_month
+        description: Month in YYYY-MM format
+        tests:
+          - unique
+          - not_null
+      
+      - name: total_revenue
+        description: Sum of all order amounts for the month
+        tests:
+          - not_null

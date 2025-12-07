@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+  - name: raw_data
+    database: potent-galaxy-470408-d0  # REPLACE with YOUR Project ID
+    schema: dbt_dev
+    description: Raw data loaded from seed files
+    
+    tables:
+      - name: raw_customers
+        description: Raw customer information
+        columns:
+          - name: customer_id
+            description: Unique customer identifier
+            
+      - name: raw_orders
+        description: Raw order transactions
+        columns:
+          - name: order_id
+            description: Unique order identifier
